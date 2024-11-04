@@ -64,6 +64,13 @@ module.exports = {
         CHECK: true,
         READONLY: false
     },
+	LINUXSERVER: {
+        DEFAULT: false,
+        VALUE: process.env.LINUXSERVER,
+        TYPE: `boolean`,
+        CHECK: true,
+        READONLY: false
+	},
     PLAYER: {
         DEFAULT: true,
         VALUE: process.env.PLAYER,

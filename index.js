@@ -6,8 +6,12 @@ const {
 const events = require(path.join(__dirname, `events.js`));
 const functions = require(path.join(__dirname, `functions.js`));
 const settings = require(path.join(__dirname, `settings.js`));
-
-const tail = new Tail(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), `DayZServer_x64.ADM`), {
+let admLogFile = `DayZServer_x64.ADM`;
+if(settings.GET(`LINUXSERVER`) == true) {
+	admLogFile = `DayZServer.ADM`;
+}
+	
+const tail = new Tail(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), admLogFile), {
     separator: null,
     useWatchFile: true
 });
@@ -18,7 +22,7 @@ const tail = new Tail(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), `DayZ
         tail.on(`line`, (DATA) => {
             if (!DATA || !DATA.length) return;
             console.log(DATA.trim());
-            let TIMESTAMP = fs.readFileSync(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), `DayZServer_x64.ADM`), `utf8`).split(/\r?\n/).find(line => {
+            let TIMESTAMP = fs.readFileSync(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), admLogFile), `utf8`).split(/\r?\n/).find(line => {
                 if (line.includes(`AdminLog started`)) return line;
             });
             if (TIMESTAMP) TIMESTAMP = {
