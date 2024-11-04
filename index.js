@@ -25,9 +25,9 @@ const tail = new Tail(path.join(settings.GET(`DAYZSERVERPROFILELOCATION`), `DayZ
                 DATE: TIMESTAMP.split(`AdminLog started on`)[1].split(`at`)[0].trim(),
                 TIME: TIMESTAMP.split(`AdminLog started on`)[1].split(`at`)[1].trim()
             };
-            if (DATA.includes(` is connected `) && settings.GET(`CONNECTED`) == true) {
+            if (DATA.includes(` is connected`) && settings.GET(`CONNECTED`) == true) {
                 const TIME = DATA.split(` | Player `)[0].trim();
-                const PLAYER = DATA.split(`| Player `)[1].split(`\'`).join(``).split(`\"`).join(``).split(` is connected `)[0].trim();
+                const PLAYER = DATA.split(`| Player `)[1].split(`\'`).join(``).split(`\"`).join(``).split(`(id=`)[0].trim();
                 const PLAYERID = DATA.split(`(id=`)[1].split(`)`)[0].trim();
                 return events.emit(`CONNECTED`, {
                     DATE: settings.GET(`REALDATE`) == true ? new Date(`${TIMESTAMP.DATE} ${TIME ? TIME : TIMESTAMP.TIME}`).getTime() || new Date().getTime() : new Date().getTime(),
